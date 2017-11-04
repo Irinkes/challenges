@@ -1,0 +1,43 @@
+<script>
+	function ScaleBalancing(strArr) { 
+	  var strArrayFirst = arguments[0].split(',');	  
+	  var strArraySecond = arguments[1].split(',');	
+	  var str = 'object[2]';
+	  strArrayFirst[0].replace(/\[|\]/g, '');	   
+	  for(var i = 0; i<strArrayFirst.length;i++) {	  	
+	  	strArrayFirst[i] = parseInt(strArrayFirst[i].replace(/\[|\]/g, ''));
+	  	}	  
+	  for(var k = 0; k<strArraySecond.length;k++) {	  	
+	  	strArraySecond[k] = parseInt(strArraySecond[k].replace(/\[|\]/g, ''));		  		
+	  }
+
+	  if(strArrayFirst[0] > strArrayFirst[1]) {	  	
+	  	var sum = strArrayFirst[0] - strArrayFirst[1];	  	
+	  	for(var j = 0; j<strArraySecond.length; j++) {
+	  		if(strArraySecond[j]===sum) {
+	  			return strArraySecond[j];
+	  		}	  	
+	  		for(var h = j+1; h<strArraySecond.length; h++){
+	  			if(strArraySecond[j]+strArraySecond[h] === sum) {
+	  				return [strArraySecond[j], strArraySecond[h]];
+	  			}
+	  		}
+	  	}
+	  }
+	  else {	  	
+	  	var sum = strArrayFirst[1] - strArrayFirst[0];
+	  	for(var j = 0; j<strArraySecond.length; j++) {
+	  		if(strArraySecond[j]===sum) {
+	  			return strArraySecond[j];
+	  		}	  	
+	  		for(var h = j+1; h<strArraySecond.length; h++){
+	  			if(strArraySecond[j]+strArraySecond[h] === sum) {
+	  				return [strArraySecond[j], strArraySecond[h]];
+	  			}
+	  		}
+	  	}
+	  }
+	  return "can't resolve";
+	}
+	console.log(ScaleBalancing("[4, 11]", "[7, 2, 3, 6, 14]")); 
+</script>
