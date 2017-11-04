@@ -29,9 +29,7 @@
         }
 
         var removeEmpties = function(item) {
-            if(item.num !== undefined && item.sum !==undefined) {
-                return item;
-            }
+            return item.num !== undefined && item.sum !==undefined;
         };
 
         var filteredValues = rawNums.map(getNumsAndSums).filter(removeEmpties);
