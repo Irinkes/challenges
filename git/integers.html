@@ -6,35 +6,39 @@
         }
 
         rawNums = rawNums.slice(1);
-        var divisorsSums = rawNums.map(function(num){
+
+        var getNumsAndSums = function (num) {
             var sumDivisors = 0;
             var square;
             var sumDivisorsObj = {};
-            for(var i=1; i<=num; i++) {
-                if(num===1) {
+            for (i = 1; i <= num; i++) {
+                if (num === 1) {
                     sumDivisors = 1;
                 }
-                else if(num%i===0) {
-                    square = i*i;
+                else if (num % i === 0) {
+                    square = i * i;
                     sumDivisors += square;
                 }
             }
 
-            if(Math.sqrt(sumDivisors)%1===0) {
+            if (Math.sqrt(sumDivisors) % 1 === 0) {
                 sumDivisorsObj.num = num;
                 sumDivisorsObj.sum = sumDivisors;
             }
             return sumDivisorsObj;
-    })
+        }
 
-        var filteredValues = divisorsSums.filter(function(item) {
+        var removeEmpties = function(item) {
             if(item.num !== undefined && item.sum !==undefined) {
                 return item;
             }
-        })
+        };
+
+        var filteredValues = rawNums.map(getNumsAndSums).filter(removeEmpties);
+
         var resultArray = [];
-        for(var i=0; i<filteredValues.length; i++) {
-            resultArray[i] = new Array(filteredValues[i].num, filteredValues[i].sum);
+        for(i=0; i<filteredValues.length; i++) {
+            resultArray[i] = [filteredValues[i].num, filteredValues[i].sum];
         }
 
         return resultArray;
