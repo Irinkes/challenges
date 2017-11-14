@@ -1,5 +1,11 @@
 function segmentify(dictionary, inputString) {
     var currentWord;
+    var complexWord;
+    var ambiguous=false;
+
+    dictionary = dictionary.sort(function(a, b){
+        return b.length - a.length;
+    })
 
     for (var j = 0;j<dictionary.length;j++) {
         currentWord = dictionary[j];
@@ -7,21 +13,21 @@ function segmentify(dictionary, inputString) {
         for (var k = 0;k<dictionary.length;k++) {
             if (j !== k) {
               if(currentWord.includes(dictionary[k]) && currentWord!==dictionary[k]){
-                  currentWord = currentWord.replace(dictionary[k],' ');
+                  complexWord = dictionary[j];
+                  var re = new RegExp(dictionary[k], 'g');
+                  currentWord = currentWord.replace(re,' ');
               }
             }
         }
         currentWord = currentWord.trim();
-        if(currentWord.length===0) {
-            return "AMBIGUOUS";
+        if(currentWord.length===0 && inputString.includes(complexWord)) {
+            ambiguous=true;
         }
     }
 
     var words = [];
 
-    dictionary = dictionary.sort(function(a, b){
-        return b.length - a.length;
-    })
+
 
     var re;
     var spaces;
@@ -36,7 +42,7 @@ function segmentify(dictionary, inputString) {
                     if (foundPos == -1) break;
 
                     words[foundPos] = dictionary[i];
-                    pos = foundPos + 1; // продолжить поиск со следующей
+                    pos = foundPos + 1;
                 }
                 re = new RegExp(dictionary[i], 'g');
                 spaces = ' '.repeat(dictionary[i].length);
@@ -61,11 +67,16 @@ function segmentify(dictionary, inputString) {
         return "IMPOSSIBLE";
     }
     else {
-        words = words.filter(removeEmpties);
-        for(i=0;i<words.length-1;i++) {
-            words[i]=words[i]+' ';
+        if(ambiguous) {
+            return "AMBIGUOUS";
         }
-        return words.join('');
+        else{
+            words = words.filter(removeEmpties);
+            for(i=0;i<words.length-1;i++) {
+                words[i]=words[i]+' ';
+            }
+            return words.join('');
+        }
     }
 
     function removeEmpties(item){
@@ -73,12 +84,39 @@ function segmentify(dictionary, inputString) {
     }
 
 }
-const dictionary = ['the', 'chicken', 'crossed', 'road'];
-const inputString = "thechickencrossedtheroad";
+// const dictionary = ['the', 'chicken', 'crossed', 'road'];
+// const inputString = "thechickencrossedtheroad";
+
+const dictionary = ['qvr',
+    'jjpno',
+    'w',
+    'd',
+    'yjit',
+    'g',
+    'vtvqs',
+    'adni',
+    'slmoe',
+    'm',
+    'dwd'];
+const inputString = "dwdyjitslmoedrhvcrhvcslmoewyjitrhvcslmoeadnirhvcrhvcjjpnodwdslmoe";
 
 // const dictionary = ["weather", "the", "how", "is"];
 // const inputString = "howistheweatherhow";
 
 // const dictionary = ['examples', 'over', 'haul', 'overhaul', 'the'];
 // const inputString = "overhaultheexamples";
+
+// const dictionary = [ 'hr',
+//     'a',
+//     'abw',
+//     'yc',
+//     'x',
+//     'arbie',
+//     'gkan',
+//     'witfe',
+//     'lvvas',
+//     'tc',
+//     'arbieyc'];
+// const inputString = "xarbieycgkanlvvaswitfehrxaarbielvvasgkanatcgkantctcwitfe";
+
 console.log(segmentify(dictionary, inputString));
