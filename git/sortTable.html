@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            table {
+                border-spacing: 0;
+            }
+            tr:first-child{
+                background: #ccc;
+            }
+            td, th{
+                border:1px solid #000;
+                padding: 5px;
+            }
+            .sort-btn{
+                width: 0;
+                height: 0;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                margin-left:10px;
+                margin-right:10px;
+                position: relative;
+                cursor: pointer;
+            }
+            .sort-btn-down {
+                border-top: 10px solid red;
+                bottom: -15px;
+            }
+            .sort-btn-up {
+                border-bottom: 10px solid red;
+                bottom: 13px;
+            }
+        </style>
+    </head>
+    <body>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Name<span class="sort-btn sort-btn-up" id="names-col"></span></th>
+                    <th>Job title<span class=" sort-btn sort-btn-up" id="jobtitle-col"></span></th>
+                    <th>Age<span class="sort-btn sort-btn-up"></span></th>
+                    <th>Married<span class="sort-btn sort-btn-up"></span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="name">Mark</td>
+                    <td class="job">Javascript programmer</td>
+                    <td>18</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td class="name">Leo</td>
+                    <td class="job">Full-stack developer</td>
+                    <td >16</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td class="name">Kiera</td>
+                    <td class="job">Marketing sales manager</td>
+                    <td>38</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td class="name">Natasha</td>
+                    <td class="job">HR manager</td>
+                    <td>25</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td class="name">Sonya</td>
+                    <td class="job">Financial director</td>
+                    <td>29</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td class="name">Kevin</td>
+                    <td class="job">Electrician</td>
+                    <td>30</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td class="name">Victoria</td>
+                    <td class="job">HR manager</td>
+                    <td>19</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td class="name">Thomas</td>
+                    <td class="job">Head of Marketing department</td>
+                    <td>39</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td class="name">Elizabeth</td>
+                    <td class="job">Backend developer</td>
+                    <td>50</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td class="name">Moreen</td>
+                    <td class="job">Pizzamaker</td>
+                    <td>16</td>
+                    <td>No</td>
+                </tr>
+            </tbody>
+        </table>
+        <script>
+            var namesCol = document.querySelector('#names-col');
+            var jobTitleCol = document.querySelector('#jobtitle-col');
+            var table = document.querySelector('#table');
+            var tbody = table.getElementsByTagName('tbody')[0];
+            var rowArray = [].slice.call(tbody.rows);
+            console.log(rowArray[0].cells);
+            function sortABC(sortColHeader){
+
+                function compareRows(rowA, rowB){
+                    return rowA.cells[sortColHeader.parentNode.cellIndex].innerHTML > rowB.cells[sortColHeader.parentNode.cellIndex].innerHTML;
+                }
+
+                if(!(sortColHeader.classList.contains('sort-btn-down'))) {
+
+                    rowArray = rowArray.sort(compareRows);
+                    table.removeChild(tbody);
+                    for(i=0;i<rowArray.length;i++) {
+                        tbody.appendChild(rowArray[i]);
+                    }
+                    table.appendChild(tbody);
+                    sortColHeader.classList.remove('sort-btn-up');
+                    sortColHeader.classList.add('sort-btn-down');
+
+                }
+                else {
+                    rowArray = rowArray.reverse();
+                    table.removeChild(tbody);
+                    for(i=0;i<rowArray.length;i++) {
+                        tbody.appendChild(rowArray[i]);
+                    }
+                    table.appendChild(tbody)
+                    sortColHeader.classList.remove('sort-btn-down');
+                    sortColHeader.classList.add('sort-btn-up');
+                }
+            }
+
+            namesCol.addEventListener('click', sortABC.bind(null, namesCol));
+            jobTitleCol.addEventListener('click', sortABC.bind(null, jobTitleCol));
+
+
+        </script>
+    </body>
+</html>
