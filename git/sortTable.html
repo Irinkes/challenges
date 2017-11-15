@@ -6,7 +6,7 @@
             table {
                 border-spacing: 0;
             }
-            tr:first-child{
+            thead tr:first-child{
                 background: #ccc;
             }
             td, th{
@@ -31,16 +31,32 @@
                 border-bottom: 10px solid red;
                 bottom: 13px;
             }
+            .add-btn {
+                background: url("add.ico");
+                width: 20px;
+                height: 20px;
+                background-size: 100%;
+                margin-top: 10px;
+            }
+            .add-btn:hover {
+                width: 25px;
+                height: 25px;
+                cursor: pointer;
+            }
+            .inputs {
+                margin-top:10px;
+                display: none;
+            }
         </style>
     </head>
     <body>
         <table id="table">
             <thead>
                 <tr>
-                    <th>Name<span class="sort-btn sort-btn-up" id="names-col"></span></th>
-                    <th>Job title<span class=" sort-btn sort-btn-up" id="jobtitle-col"></span></th>
-                    <th>Age<span class="sort-btn sort-btn-up"></span></th>
-                    <th>Married<span class="sort-btn sort-btn-up"></span></th>
+                    <th>Name<span class="sort-btn sort-btn-up" id="names-col" data-type="abc"></span></th>
+                    <th>Job title<span class=" sort-btn sort-btn-up" id="jobtitle-col" data-type="abc"></span></th>
+                    <th>Age<span class="sort-btn sort-btn-up" data-type="num" id="age-col"></span></th>
+                    <th>Married<span class="sort-btn sort-btn-up" data-type="abc" id="married-col"></span></th>
                 </tr>
             </thead>
             <tbody>
@@ -106,45 +122,109 @@
                 </tr>
             </tbody>
         </table>
+        <div class="inputs" id="inputs">
+            <input type="text" placeholder="Name" name="name" />
+            <input type="text" placeholder="Job title" name="jobtitle"/>
+            <input type="text" placeholder="Age" name="age"/>
+            <input type="text" placeholder="Married?" name="married"/>
+        </div>
+        <div class="add-btn" id="addbtn"></div>
         <script>
-            var namesCol = document.querySelector('#names-col');
-            var jobTitleCol = document.querySelector('#jobtitle-col');
-            var table = document.querySelector('#table');
-            var tbody = table.getElementsByTagName('tbody')[0];
-            var rowArray = [].slice.call(tbody.rows);
-            console.log(rowArray[0].cells);
-            function sortABC(sortColHeader){
 
-                function compareRows(rowA, rowB){
-                    return rowA.cells[sortColHeader.parentNode.cellIndex].innerHTML > rowB.cells[sortColHeader.parentNode.cellIndex].innerHTML;
-                }
+            function sortColumns(){
+                var tbody = table.getElementsByTagName('tbody')[0];
+                var rowArray = [].slice.call(tbody.rows);
+                var compareRows;
 
-                if(!(sortColHeader.classList.contains('sort-btn-down'))) {
-
-                    rowArray = rowArray.sort(compareRows);
-                    table.removeChild(tbody);
-                    for(i=0;i<rowArray.length;i++) {
-                        tbody.appendChild(rowArray[i]);
-                    }
-                    table.appendChild(tbody);
-                    sortColHeader.classList.remove('sort-btn-up');
-                    sortColHeader.classList.add('sort-btn-down');
-
+                if(event.target.tagName!=='TH' && event.target.tagName!=='SPAN'){
+                        return;
                 }
                 else {
-                    rowArray = rowArray.reverse();
-                    table.removeChild(tbody);
-                    for(i=0;i<rowArray.length;i++) {
-                        tbody.appendChild(rowArray[i]);
+                    var cellindex;
+                    var target;
+                    console.log(event.target.tagName);
+                    var attr = event.target.getAttribute('data-type');
+                    if(event.target.tagName==='TH') {
+                        cellindex = event.target.cellIndex;
+                        sortColHeader = event.target.firstChild;
                     }
-                    table.appendChild(tbody)
-                    sortColHeader.classList.remove('sort-btn-down');
-                    sortColHeader.classList.add('sort-btn-up');
+                    else if(event.target.tagName==='SPAN') {
+                        cellindex = event.target.parentNode.cellIndex;
+                        sortColHeader = event.target;
+
+                    }
+                    console.log(sortColHeader);
+
+
+                    if(attr==='abc'){
+                        compareRows = function (rowA, rowB) {
+                            return rowA.cells[cellindex].innerHTML > rowB.cells[cellindex].innerHTML;
+                        }
+                    }
+                    else if(attr==='num'){
+                        compareRows = function (rowA, rowB) {
+                            return rowA.cells[sortColHeader.parentNode.cellIndex].innerHTML - rowB.cells[sortColHeader.parentNode.cellIndex].innerHTML;
+                        }
+                    }
+
+                    if(!(sortColHeader.classList.contains('sort-btn-down'))) {
+
+                        rowArray = rowArray.sort(compareRows);
+                        table.removeChild(tbody);
+                        for(i=0;i<rowArray.length;i++) {
+                            tbody.appendChild(rowArray[i]);
+                        }
+                        table.appendChild(tbody);
+                        sortColHeader.classList.remove('sort-btn-up');
+                        sortColHeader.classList.add('sort-btn-down');
+
+                    }
+                    else {
+                        rowArray = rowArray.reverse();
+                        table.removeChild(tbody);
+                        for(i=0;i<rowArray.length;i++) {
+                            tbody.appendChild(rowArray[i]);
+                        }
+                        table.appendChild(tbody)
+                        sortColHeader.classList.remove('sort-btn-down');
+                        sortColHeader.classList.add('sort-btn-up');
+                    }
+                }
+
+            }
+            function addRow(){
+                var addbtn = document.querySelector("#addbtn");
+                var inputs = document.querySelector("#inputs");
+
+                if(!(addbtn.classList.contains('addToTable'))) {
+                    inputs.style.display='block';
+                    addbtn.classList.add('addToTable');
+                }
+                else {
+                    var tbody = table.getElementsByTagName('tbody')[0];
+                    var inputValues=[];
+                    for(i=0; i<inputs.getElementsByTagName('input').length;i++) {
+                        inputValues[i] = inputs.getElementsByTagName('input')[i].value;
+                    }
+
+                    var tr = document.createElement('tr');
+                    var newtd = [];
+                    console.log(inputs.getElementsByTagName('input').length);
+                    for(i=0;i<inputs.getElementsByTagName('input').length;i++) {
+                        newtd[i]=document.createElement('td');
+                        newtd[i].innerHTML = inputValues[i];
+                        tr.appendChild(newtd[i]);
+                    }
+                    tbody.appendChild(tr);
+
+                    for(i=0;i<inputs.getElementsByTagName('input').length;i++) {
+                        inputs.getElementsByTagName('input')[i].value='';
+                    }
                 }
             }
-
-            namesCol.addEventListener('click', sortABC.bind(null, namesCol));
-            jobTitleCol.addEventListener('click', sortABC.bind(null, jobTitleCol));
+            table.addEventListener('click',sortColumns);
+            addbtn.addEventListener('click',addRow);
+//
 
 
         </script>
