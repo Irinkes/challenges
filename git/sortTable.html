@@ -330,8 +330,11 @@
                         var highLightTd = document.createElement('td');
                         highLightTd.innerHTML = 'Highlight';
                         highLightTd.className='highlight';
-                        console.log(inputs.getElementsByTagName('input').length);
+
                         for(i=0;i<inputs.getElementsByTagName('input').length;i++) {
+                            if(inputs.getElementsByTagName('input')[i].classList.contains('error-field')) {
+                                inputs.getElementsByTagName('input')[i].classList.remove('error-field');
+                            }
                             newtd[i]=document.createElement('td');
                             newtd[i].innerHTML = inputValues[i];
                             tr.appendChild(newtd[i]);
