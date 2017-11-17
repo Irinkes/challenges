@@ -2,9 +2,17 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
+            .wrapper {
+                max-width:1000px;
+                margin:5px auto;
+            }
             table {
                 border-spacing: 0;
+                border:none !important;
+
             }
             thead tr:first-child{
                 background: #ccc;
@@ -31,26 +39,56 @@
                 border-bottom: 10px solid red;
                 bottom: 13px;
             }
-            .add-btn {
-                background: url("add.ico");
-                width: 20px;
-                height: 20px;
-                background-size: 100%;
-                margin-top: 10px;
-            }
-            .add-btn:hover {
-                width: 25px;
-                height: 25px;
-                cursor: pointer;
-            }
+
             .inputs {
                 margin-top:10px;
                 display: none;
             }
+            .inputs input[type='text'] {
+                padding: 8px !important;
+                margin-right:10px;
+                display: inline!important;;
+                width: auto!important;;
+                height: auto!important;;
+            }
+            input.error-field {
+                border-color: #a94442;
+                box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            }
+            label.married {
+                display: inline-block;
+                margin-top:5px;
+                margin-bottom: 15px;
+                font-weight: normal;
+            }
+            .married input{
+                display: inline-block;
+                vertical-align: top;
+            }
+            .error-msg {
+                display: none;
+                color: red;
+            }
+            .delete{
+                cursor: pointer;
+                border:none !important;
+                padding-left:10px;
+                color: red;
+
+            }
+            .highlight {
+                cursor: pointer;
+                border:none !important;
+                padding-left:10px;
+                color: forestgreen;
+                width: 200px;
+
+            }
         </style>
     </head>
     <body>
-        <table id="table">
+    <div class="wrapper">
+        <table id="table" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Name<span class="sort-btn sort-btn-up" id="names-col" data-type="abc"></span></th>
@@ -65,70 +103,100 @@
                     <td class="job">Javascript programmer</td>
                     <td>18</td>
                     <td>Yes</td>
+                    <td class="delete">Delete</td>
+                    <td class="highlight">Highlight</td>
                 </tr>
                 <tr>
                     <td class="name">Leo</td>
                     <td class="job">Full-stack developer</td>
                     <td >16</td>
                     <td>No</td>
+                    <td class="delete">Delete</td>
+                    <td class="highlight">Highlight</td>
                 </tr>
                 <tr>
                     <td class="name">Kiera</td>
                     <td class="job">Marketing sales manager</td>
                     <td>38</td>
                     <td>Yes</td>
+                    <td class="delete">Delete</td>
+                    <td class="highlight">Highlight</td>
                 </tr>
                 <tr>
                     <td class="name">Natasha</td>
                     <td class="job">HR manager</td>
                     <td>25</td>
                     <td>No</td>
+                    <td class="delete">Delete</td>
+                    <td class="highlight">Highlight</td>
                 </tr>
                 <tr>
                     <td class="name">Sonya</td>
                     <td class="job">Financial director</td>
                     <td>29</td>
                     <td>Yes</td>
+                    <td class="delete">Delete</td>
+                    <td class="highlight">Highlight</td>
                 </tr>
                 <tr>
                     <td class="name">Kevin</td>
                     <td class="job">Electrician</td>
                     <td>30</td>
                     <td>Yes</td>
+                    <td class="delete">Delete</td>
+                    <td class="highlight">Highlight</td>
                 </tr>
                 <tr>
                     <td class="name">Victoria</td>
                     <td class="job">HR manager</td>
                     <td>19</td>
                     <td>No</td>
+                    <td class="delete">Delete</td>
+                    <td class="highlight">Highlight</td>
                 </tr>
                 <tr>
                     <td class="name">Thomas</td>
                     <td class="job">Head of Marketing department</td>
                     <td>39</td>
                     <td>Yes</td>
+                    <td class="delete">Delete</td>
+                    <td class="highlight">Highlight</td>
                 </tr>
                 <tr>
                     <td class="name">Elizabeth</td>
                     <td class="job">Backend developer</td>
                     <td>50</td>
                     <td>Yes</td>
+                    <td class="delete">Delete</td>
+                    <td class="highlight">Highlight</td>
                 </tr>
                 <tr>
                     <td class="name">Moreen</td>
                     <td class="job">Pizzamaker</td>
                     <td>16</td>
                     <td>No</td>
+                    <td class="delete">Delete</td>
+                    <td class="highlight">Highlight</td>
                 </tr>
             </tbody>
         </table>
         <div class="inputs" id="inputs">
-            <input type="text" placeholder="Name" name="name" />
-            <input type="text" placeholder="Job title" name="jobtitle"/>
-            <input type="text" placeholder="Age" name="age"/>
-            <input type="text" placeholder="Married?" name="married"/>
+            <input type="text" placeholder="Name" name="name" class="form-control"/>
+            <input type="text" placeholder="Job title" name="jobtitle" class="form-control"/>
+            <input type="text" placeholder="Age" name="age" class="form-control"/>
+            <label class="married">
+                <input type="checkbox" name="married"/>
+                Married
+            </label>
         </div>
-        <div class="add-btn" id="addbtn"></div>
+        <div class="error-msg" id="error">
+            Please check data you inserted
+        </div>
+
+        <a href="#" class="btn btn-info btn-lg add-btn" id="addbtn">
+            <span class="glyphicon glyphicon-plus"></span> Add employee
+        </a>
+    </div>
         <script>
 
             function sortColumns(){
@@ -136,25 +204,41 @@
                 var rowArray = [].slice.call(tbody.rows);
                 var compareRows;
 
-                if(event.target.tagName!=='TH' && event.target.tagName!=='SPAN'){
-                        return;
+                if(event.target.classList.contains('delete')){
+                     event.target.parentNode.remove();
                 }
-                else {
+                else if(event.target.classList.contains('highlight')) {
+                    var td = event.target.parentNode.children;
+
+                    for(i=0;i<td.length-2;i++) {
+                        if(!(td[i].classList.contains('success'))) {
+                            td[i].classList.add('success');
+
+                            event.target.innerHTML="Remove highlighting";
+                        }
+                        else {
+                            td[i].classList.remove('success');
+                            event.target.innerHTML="Highlight";
+                        }
+
+                    }
+//
+                }
+                else if(event.target.tagName==='TH' || event.target.tagName==='SPAN') {
                     var cellindex;
-                    var target;
+                    var attr;
                     console.log(event.target.tagName);
-                    var attr = event.target.getAttribute('data-type');
                     if(event.target.tagName==='TH') {
                         cellindex = event.target.cellIndex;
-                        sortColHeader = event.target.firstChild;
+                        sortColHeader = event.target.childNodes[1];
+                        attr = sortColHeader.getAttribute('data-type');
                     }
                     else if(event.target.tagName==='SPAN') {
                         cellindex = event.target.parentNode.cellIndex;
                         sortColHeader = event.target;
+                        attr = event.target.getAttribute('data-type');
 
                     }
-                    console.log(sortColHeader);
-
 
                     if(attr==='abc'){
                         compareRows = function (rowA, rowB) {
@@ -190,7 +274,24 @@
                         sortColHeader.classList.add('sort-btn-up');
                     }
                 }
+                else {
+                    return;
+                }
 
+            }
+            function validateInputs(inputs) {
+                for(i=0;i<inputs.length-1;i++) {
+                    if(inputs[i].value.length===0) {
+                        inputs[i].classList.add('error-field');
+                        return false;
+                    }
+                }
+                if(isNaN(parseInt(inputs[2].value)) || parseInt(inputs[2].value)<0) {
+                    inputs[2].classList.add('error-field');
+                    return false;
+                }
+
+                return true;
             }
             function addRow(){
                 var addbtn = document.querySelector("#addbtn");
@@ -204,22 +305,51 @@
                     var tbody = table.getElementsByTagName('tbody')[0];
                     var inputValues=[];
                     for(i=0; i<inputs.getElementsByTagName('input').length;i++) {
-                        inputValues[i] = inputs.getElementsByTagName('input')[i].value;
+                        if(inputs.getElementsByTagName('input')[i].type==='checkbox') {
+                            if(inputs.getElementsByTagName('input')[i].checked){
+                                inputValues[i] = 'Yes';
+                            }
+                            else{
+                                inputValues[i] = 'No';
+                            }
+                        }
+                        else{
+                            inputValues[i] = inputs.getElementsByTagName('input')[i].value;
+                        }
+
                     }
 
-                    var tr = document.createElement('tr');
-                    var newtd = [];
-                    console.log(inputs.getElementsByTagName('input').length);
-                    for(i=0;i<inputs.getElementsByTagName('input').length;i++) {
-                        newtd[i]=document.createElement('td');
-                        newtd[i].innerHTML = inputValues[i];
-                        tr.appendChild(newtd[i]);
-                    }
-                    tbody.appendChild(tr);
+                    var validation = validateInputs(inputs.getElementsByTagName('input'));
 
-                    for(i=0;i<inputs.getElementsByTagName('input').length;i++) {
-                        inputs.getElementsByTagName('input')[i].value='';
+                    if(validation) {
+                        var tr = document.createElement('tr');
+                        var newtd = [];
+                        var deleteTd = document.createElement('td');
+                        deleteTd.innerHTML = 'Delete';
+                        deleteTd.className='delete';
+                        var highLightTd = document.createElement('td');
+                        highLightTd.innerHTML = 'Highlight';
+                        highLightTd.className='highlight';
+                        console.log(inputs.getElementsByTagName('input').length);
+                        for(i=0;i<inputs.getElementsByTagName('input').length;i++) {
+                            newtd[i]=document.createElement('td');
+                            newtd[i].innerHTML = inputValues[i];
+                            tr.appendChild(newtd[i]);
+                        }
+                        tr.appendChild(deleteTd);
+                        tr.appendChild(highLightTd);
+                        tbody.appendChild(tr);
+
+                        for(i=0;i<inputs.getElementsByTagName('input').length;i++) {
+                            inputs.getElementsByTagName('input')[i].value='';
+                        }
+                        document.querySelector('#error').style.display='none';
                     }
+                    else{
+                        document.querySelector('#error').style.display='block';
+                    }
+
+
                 }
             }
             table.addEventListener('click',sortColumns);
