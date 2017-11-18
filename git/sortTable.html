@@ -196,9 +196,71 @@
         <a href="#" class="btn btn-info btn-lg add-btn" id="addbtn">
             <span class="glyphicon glyphicon-plus"></span> Add employee
         </a>
+        <a href="#" class="btn btn-success btn-lg add-btn" id="uploadbtn">
+            <span class="glyphicon glyphicon-plus"></span> Upload new employees
+        </a>
     </div>
         <script>
+            function uploadData() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", 'http://localhost:8080/employee', true);
+                xhr.send();
+                xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status==200){
+                    console.log('responseText: ' + xhr.responseText);
+                    try{
+                        document.getElementById('uploadbtn').textContent = 'Upload new employees';
+                        var data=JSON.parse(xhr.responseText);
 
+                        addData(data);
+                    } catch (err) {
+                        console.log(err.message + " in " + xhr.responseText);
+                        return;
+                    }
+                    }
+                }
+                function addData(data){
+//                    alert(data[0].name);
+                   if(data.length>0) {
+                       var tbody = table.getElementsByTagName('tbody')[0];
+                       for (i = 0; i < data.length; i++) {
+                           var tr = document.createElement('tr');
+
+                           var deleteTd = document.createElement('td');
+                           deleteTd.innerHTML = 'Delete';
+                           deleteTd.className = 'delete';
+                           var highLightTd = document.createElement('td');
+                           highLightTd.innerHTML = 'Highlight';
+                           highLightTd.className = 'highlight';
+
+                           delete data[i].id;
+                           for (key in data[i]) {
+                               var td = document.createElement('td');
+                               if (key === 'married') {
+                                   if (data[i][key] === true) {
+                                       td.innerHTML = 'Yes';
+                                   } else {
+                                       td.innerHTML = 'No';
+                                   }
+                               } else {
+                                   td.innerHTML = data[i][key];
+                               }
+
+                               tr.appendChild(td);
+                               tr.appendChild(deleteTd);
+                               tr.appendChild(highLightTd);
+                           }
+
+                           tbody.appendChild(tr);
+                       }
+                   } else{
+                       alert("No updates");
+                   }
+                }
+
+                document.getElementById('uploadbtn').textContent = 'Uploading...';
+
+            }
             function sortColumns(){
                 var tbody = table.getElementsByTagName('tbody')[0];
                 var rowArray = [].slice.call(tbody.rows);
@@ -357,6 +419,7 @@
             }
             table.addEventListener('click',sortColumns);
             addbtn.addEventListener('click',addRow);
+            uploadbtn.addEventListener('click', uploadData);
 //
 
 
