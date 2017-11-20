@@ -82,12 +82,53 @@
                 padding-left:10px;
                 color: forestgreen;
                 width: 200px;
+                position: relative;
 
+            }
+            .highlight:hover .color-pallette{
+                display: block;
+            }
+
+            .no-updates-popup {
+                position: fixed;
+                border: 1px solid #ccc;
+                width: 600px;
+                display: none;
+                top: 10%;
+                background: #fff;
+                left: 50%;
+                margin-left: -300px;
+                padding: 10px;
+            }
+            .color-pallette {
+                background: #fff;
+                width: 90px;
+                padding: 5px;
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                display: none;
+            }
+            .pick-color {
+                width: 20px;
+                height:20px;
+                display: inline-block;
+                margin-right: 8px;
+            }
+            .pick-pink {
+                background: hotpink;
+                margin-right: 0 !important;
+            }
+            .pick-green {
+                background: darkgreen;
+            }
+            .pick-yellow {
+                background: yellow;
             }
         </style>
     </head>
     <body>
-    <div class="wrapper">
+    <div class="wrapper" id="wrapper">
         <table id="table" class="table table-bordered">
             <thead>
                 <tr>
@@ -101,82 +142,82 @@
                 <tr>
                     <td class="name">Mark</td>
                     <td class="job">Javascript programmer</td>
-                    <td>18</td>
-                    <td>Yes</td>
-                    <td class="delete">Delete</td>
-                    <td class="highlight">Highlight</td>
+                    <td class="age">18</td>
+                    <td class="married">Yes</td>
+                    <td class="delete" id="0">Delete</td>
+                    <td class="highlight">Highlight <div class="color-pallette"><div class="pick-color pick-green"></div><div class="pick-color pick-yellow"></div><div class="pick-color pick-pink"></div></div></td>
                 </tr>
                 <tr>
                     <td class="name">Leo</td>
                     <td class="job">Full-stack developer</td>
-                    <td >16</td>
-                    <td>No</td>
-                    <td class="delete">Delete</td>
-                    <td class="highlight">Highlight</td>
+                    <td class="age">16</td>
+                    <td class="married">No</td>
+                    <td class="delete" id="1">Delete</td>
+                    <td class="highlight">Highlight <div class="color-pallette"><div class="pick-color pick-green"></div><div class="pick-color pick-yellow"></div><div class="pick-color pick-pink"></div></div></td>
                 </tr>
                 <tr>
                     <td class="name">Kiera</td>
                     <td class="job">Marketing sales manager</td>
-                    <td>38</td>
-                    <td>Yes</td>
-                    <td class="delete">Delete</td>
-                    <td class="highlight">Highlight</td>
+                    <td class="age">38</td>
+                    <td class="married">Yes</td>
+                    <td class="delete" id="2">Delete</td>
+                    <td class="highlight">Highlight <div class="color-pallette"><div class="pick-color pick-green"></div><div class="pick-color pick-yellow"></div><div class="pick-color pick-pink"></div></div></td>
                 </tr>
                 <tr>
                     <td class="name">Natasha</td>
                     <td class="job">HR manager</td>
-                    <td>25</td>
-                    <td>No</td>
-                    <td class="delete">Delete</td>
-                    <td class="highlight">Highlight</td>
+                    <td class="age">25</td>
+                    <td class="married">No</td>
+                    <td class="delete" id="3">Delete</td>
+                    <td class="highlight">Highlight <div class="color-pallette"><div class="pick-color pick-green"></div><div class="pick-color pick-yellow"></div><div class="pick-color pick-pink"></div></div></td>
                 </tr>
                 <tr>
                     <td class="name">Sonya</td>
                     <td class="job">Financial director</td>
-                    <td>29</td>
-                    <td>Yes</td>
-                    <td class="delete">Delete</td>
-                    <td class="highlight">Highlight</td>
+                    <td class="age">29</td>
+                    <td class="married">Yes</td>
+                    <td class="delete" id="4">Delete</td>
+                    <td class="highlight">Highlight <div class="color-pallette"><div class="pick-color pick-green"></div><div class="pick-color pick-yellow"></div><div class="pick-color pick-pink"></div></div></td>
                 </tr>
                 <tr>
                     <td class="name">Kevin</td>
                     <td class="job">Electrician</td>
-                    <td>30</td>
-                    <td>Yes</td>
-                    <td class="delete">Delete</td>
-                    <td class="highlight">Highlight</td>
+                    <td class="age">30</td>
+                    <td class="married">Yes</td>
+                    <td class="delete" id="5">Delete</td>
+                    <td class="highlight">Highlight <div class="color-pallette"><div class="pick-color pick-green"></div><div class="pick-color pick-yellow"></div><div class="pick-color pick-pink"></div></div></td>
                 </tr>
                 <tr>
                     <td class="name">Victoria</td>
                     <td class="job">HR manager</td>
-                    <td>19</td>
-                    <td>No</td>
-                    <td class="delete">Delete</td>
-                    <td class="highlight">Highlight</td>
+                    <td class="age">19</td>
+                    <td class="married">No</td>
+                    <td class="delete" id="6">Delete</td>
+                    <td class="highlight">Highlight <div class="color-pallette"><div class="pick-color pick-green"></div><div class="pick-color pick-yellow"></div><div class="pick-color pick-pink"></div></div></td>
                 </tr>
                 <tr>
                     <td class="name">Thomas</td>
                     <td class="job">Head of Marketing department</td>
-                    <td>39</td>
-                    <td>Yes</td>
-                    <td class="delete">Delete</td>
-                    <td class="highlight">Highlight</td>
+                    <td class="age">39</td>
+                    <td class="married">Yes</td>
+                    <td class="delete" id="7">Delete</td>
+                    <td class="highlight">Highlight <div class="color-pallette"><div class="pick-color pick-green"></div><div class="pick-color pick-yellow"></div><div class="pick-color pick-pink"></div></div></td>
                 </tr>
                 <tr>
                     <td class="name">Elizabeth</td>
                     <td class="job">Backend developer</td>
-                    <td>50</td>
-                    <td>Yes</td>
-                    <td class="delete">Delete</td>
-                    <td class="highlight">Highlight</td>
+                    <td class="age">50</td>
+                    <td class="married">Yes</td>
+                    <td class="delete" id="8">Delete</td>
+                    <td class="highlight">Highlight <div class="color-pallette"><div class="pick-color pick-green"></div><div class="pick-color pick-yellow"></div><div class="pick-color pick-pink"></div></div></td>
                 </tr>
                 <tr>
                     <td class="name">Moreen</td>
                     <td class="job">Pizzamaker</td>
-                    <td>16</td>
-                    <td>No</td>
-                    <td class="delete">Delete</td>
-                    <td class="highlight">Highlight</td>
+                    <td class="age">16</td>
+                    <td class="married">No</td>
+                    <td class="delete" id="9">Delete</td>
+                    <td class="highlight">Highlight <div class="color-pallette"><div class="pick-color pick-green"></div><div class="pick-color pick-yellow"></div><div class="pick-color pick-pink"></div></div></td>
                 </tr>
             </tbody>
         </table>
@@ -199,6 +240,11 @@
         <a href="#" class="btn btn-success btn-lg add-btn" id="uploadbtn">
             <span class="glyphicon glyphicon-plus"></span> Upload new employees
         </a>
+        <div class="no-updates-popup" id="updates-popup">
+            <!--<h3>It's 12.11 am 18/11/2017</h3>-->
+            <!--<p>There are no new employees at this time.</p>-->
+            <h3>No updates</h3>
+        </div>
     </div>
         <script>
             function uploadData() {
@@ -219,8 +265,8 @@
                     }
                     }
                 }
-                function addData(data){
-//                    alert(data[0].name);
+                function addData(data){//
+                    console.log()
                    if(data.length>0) {
                        var tbody = table.getElementsByTagName('tbody')[0];
                        for (i = 0; i < data.length; i++) {
@@ -229,9 +275,19 @@
                            var deleteTd = document.createElement('td');
                            deleteTd.innerHTML = 'Delete';
                            deleteTd.className = 'delete';
+                           deleteTd.setAttribute('id', data[i].id);
+
+                           var pallette = "<div class=\"color-pallette\">" +
+                               "<div class=\"pick-color pick-green\"></div>" +
+                               "<div class=\"pick-color pick-yellow\"></div>" +
+                               "<div class=\"pick-color pick-pink\"></div>" +
+                               "</div>"
+
                            var highLightTd = document.createElement('td');
-                           highLightTd.innerHTML = 'Highlight';
+                           highLightTd.innerHTML = 'Highlight' + pallette;
                            highLightTd.className = 'highlight';
+
+
 
                            delete data[i].id;
                            for (key in data[i]) {
@@ -242,7 +298,9 @@
                                    } else {
                                        td.innerHTML = 'No';
                                    }
-                               } else {
+                               }
+
+                               else {
                                    td.innerHTML = data[i][key];
                                }
 
@@ -254,38 +312,125 @@
                            tbody.appendChild(tr);
                        }
                    } else{
-                       alert("No updates");
+                       document.getElementById('updates-popup').style.display='block';
                    }
                 }
 
                 document.getElementById('uploadbtn').textContent = 'Uploading...';
 
             }
+            function deleteFromAPI(id) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("DELETE", 'http://localhost:8080/employee/'+id, true);
+                xhr.send();
+
+                xhr.setRequestHeader('Accept', 'application/json');
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        console.log('responseText: ' + xhr.responseText);
+                        try {
+                            var data = JSON.parse(xhr.responseText);
+                            console.log(data);
+                        } catch (err) {
+                            console.log(err.message + " in " + xhr.responseText);
+                            return;
+                        }
+                    }
+                }
+            }
             function sortColumns(){
                 var tbody = table.getElementsByTagName('tbody')[0];
                 var rowArray = [].slice.call(tbody.rows);
                 var compareRows;
+                var pallette = "<div class=\"color-pallette\">" +
+                    "<div class=\"pick-color pick-green\"></div>" +
+                    "<div class=\"pick-color pick-yellow\"></div>" +
+                    "<div class=\"pick-color pick-pink\"></div>" +
+                    "</div>"
 
+                /*Удаление строк*/
                 if(event.target.classList.contains('delete')){
+                    var id = event.target.getAttribute('id');
+                    deleteFromAPI(id);
                      event.target.parentNode.remove();
+
                 }
-                else if(event.target.classList.contains('highlight')) {
-                    var td = event.target.parentNode.children;
+
+
+                /*Зеленый */
+                else if(event.target.classList.contains('pick-green')) {
+                    var td = event.target.parentNode.parentNode.parentNode.children;
 
                     for(i=0;i<td.length-2;i++) {
                         if(!(td[i].classList.contains('success'))) {
                             td[i].classList.add('success');
-
-                            event.target.innerHTML="Remove highlighting";
-                        }
-                        else {
-                            td[i].classList.remove('success');
-                            event.target.innerHTML="Highlight";
                         }
 
                     }
-//
+                    if(td[0].classList.contains('success')) {
+                        event.target.parentNode.parentNode.classList.add('remove-highlight');
+                        event.target.parentNode.parentNode.innerHTML = "Remove highlighting";
+                    }
+
                 }
+
+                /*Желтый*/
+                else if(event.target.classList.contains('pick-yellow')) {
+                    var td = event.target.parentNode.parentNode.parentNode.children;
+
+                    for(i=0;i<td.length-2;i++) {
+                        if(!(td[i].classList.contains('warning'))) {
+                            td[i].classList.add('warning');
+                        }
+
+                    }
+                    if(td[0].classList.contains('warning')) {
+                        event.target.parentNode.parentNode.classList.add('remove-highlight');
+                        event.target.parentNode.parentNode.innerHTML = "Remove highlighting";
+                    }
+
+                }
+
+                /*Красный*/
+                else if(event.target.classList.contains('pick-pink')) {
+                    var td = event.target.parentNode.parentNode.parentNode.children;
+
+                    for(i=0;i<td.length-2;i++) {
+                        if(!(td[i].classList.contains('danger'))) {
+                            td[i].classList.add('danger');
+                        }
+
+                    }
+                    if(td[0].classList.contains('danger')) {
+                        event.target.parentNode.parentNode.classList.add('remove-highlight');
+                        event.target.parentNode.parentNode.innerHTML = "Remove highlighting";
+                    }
+
+                }
+                /*Remove highlighting */
+                else if(event.target.classList.contains('remove-highlight')) {
+                    var td = event.target.parentNode.children;
+                    console.log(td);
+                    for(i=0;i<td.length-2;i++) {
+                        if(td[i].classList.contains('success')){
+                            td[i].classList.remove('success');
+                            event.target.innerHTML="Highlight"+pallette;
+                        }
+                       else if(td[i].classList.contains('warning')){
+                            td[i].classList.remove('warning');
+                            event.target.innerHTML="Highlight"+pallette;
+                        }
+                        else if(td[i].classList.contains('danger')){
+                            td[i].classList.remove('danger');
+                            event.target.innerHTML="Highlight"+pallette;
+                        }
+                    }
+                }
+
+
+
+
                 else if(event.target.tagName==='TH' || event.target.tagName==='SPAN') {
                     var cellindex;
                     var attr;
@@ -380,7 +525,7 @@
                         }
 
                     }
-
+                    console.log(inputValues);
                     var validation = validateInputs(inputs.getElementsByTagName('input'));
 
                     if(validation) {
@@ -390,7 +535,12 @@
                         deleteTd.innerHTML = 'Delete';
                         deleteTd.className='delete';
                         var highLightTd = document.createElement('td');
-                        highLightTd.innerHTML = 'Highlight';
+                        var pallette = "<div class=\"color-pallette\">" +
+                            "<div class=\"pick-color pick-green\"></div>" +
+                            "<div class=\"pick-color pick-yellow\"></div>" +
+                            "<div class=\"pick-color pick-pink\"></div>" +
+                            "</div>"
+                        highLightTd.innerHTML = 'Highlight'+pallette;
                         highLightTd.className='highlight';
 
                         for(i=0;i<inputs.getElementsByTagName('input').length;i++) {
@@ -414,11 +564,47 @@
                         document.querySelector('#error').style.display='block';
                     }
 
+                    addApi(inputValues);
+                }
 
+
+
+            }
+            function addApi(dataArray) {
+                var xhr = new XMLHttpRequest();
+                if(dataArray[3]==='Yes') {
+                    dataArray[3] = true;
+                }
+                else{
+                    dataArray[3] = false;
+                }
+                var body = '{ \
+                   "age":'+ encodeURIComponent(dataArray[2])+ ', \
+                   "jobTitle":"'+encodeURIComponent(dataArray[1]) +'", \
+                   "married":'+encodeURIComponent(dataArray[3])+', \
+                   "name":"'+encodeURIComponent(dataArray[0])+'" \
+                 }'
+
+                xhr.open("POST", 'http://localhost:8080/employee', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(body);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        console.log('responseText: ' + xhr.responseText);
+                        try {
+                            var data = JSON.parse(xhr.responseText);
+                            console.log(data);
+                        } catch (err) {
+                            console.log(err.message + " in " + xhr.responseText);
+                            return;
+                        }
+                    }
                 }
             }
+
             table.addEventListener('click',sortColumns);
             addbtn.addEventListener('click',addRow);
+//            addbtn.addEventListener('click', addApi);
             uploadbtn.addEventListener('click', uploadData);
 //
 
