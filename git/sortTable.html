@@ -124,6 +124,9 @@
             .modal[aria-hidden='false'] {
                 display: none;
             }
+            .pagination a{
+                margin-right:5px;
+            }
         </style>
     </head>
     <body>
@@ -270,7 +273,7 @@
 
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4 && xhr.status==200){
-                        console.log('responseText: ' + xhr.responseText);
+//                        console.log('responseText: ' + xhr.responseText);
                         try{
                             var data=JSON.parse(xhr.responseText);
                             makePages(data);
@@ -283,15 +286,51 @@
                 }
             }
             function makePages(num) {
+                var pageWrapper, pageLink;
                 if(num>10) {
-                    var pages = Math.round(num/10);
+                    var pages = Math.ceil(num/10);
+                    for(i=1;i<=pages;i++) {
+                        pageWrapper=document.getElementById('pagination');
+                        pageLink=document.createElement('a');
+                        pageLink.setAttribute('href', '#');
+                        pageLink.textContent=i;
+                        pageLink.addEventListener('click', displayPages.bind(null,i));
+                        pageWrapper.appendChild(pageLink);
+                    }
+
                 }
                 else {
-                    var pageWrapper=document.getElementById('pagination');
-                    var pageLink=document.createElement('a');
-                    pageLink.setAttribute('href', '');
+                    pageWrapper=document.getElementById('pagination');
+                    pageLink=document.createElement('a');
+                    pageLink.setAttribute('href', '#');
                     pageLink.textContent='1';
+                    pageLink.addEventListener('click', displayPages.bind(null, 1));
                     pageWrapper.appendChild(pageLink);
+                }
+            }
+            function displayPages(page){
+                var xhr = new XMLHttpRequest();
+                var fromPage = (page * 10) - 9;
+                var toPage = page * 10;
+                xhr.open("GET", 'http://localhost:8080/employee/filter?from=' + fromPage + '&to=' + toPage, true);
+                xhr.send();
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status==200){
+                        console.log('responseText: ' + xhr.responseText);
+                        try{
+                            var data=JSON.parse(xhr.responseText);
+                            console.log(data);
+                            var tableRows = table.getElementsByTagName('tbody')[0].children;
+                            for(i=0;i<tableRows.length; i++) {
+                                tableRows[i].style.display='none';
+                            }
+                            addInitData(data);
+                        } catch (err) {
+                            console.log(err.message + " in " + xhr.responseText);
+                            return;
+                        }
+                    }
                 }
             }
 
@@ -322,88 +361,89 @@
 
 
                 function initData(rowCount) {
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("GET", 'http://localhost:8080/employee', true);
-                    xhr.send();
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState == 4 && xhr.status==200){
-                            console.log('responseText: ' + xhr.responseText);
-                            try{
-                                if(rowCount>10) {
-                                    var data=JSON.parse(xhr.responseText);
-                                    data = data.slice(0,10);
-
-                                }
-                                else if(rowCount<=10) {
-                                    var data=JSON.parse(xhr.responseText);
-
-                                }
-
-                                console.log(data);
-                                addInitData(data);
-                            } catch (err) {
-                                console.log(err.message + " in " + xhr.responseText);
-                                return;
-                            }
-                        }
-                    }
-                    function addInitData(data){
-                        if(data.length>0) {
-                            var tbody = table.getElementsByTagName('tbody')[0];
-                            for (i = 0; i < data.length; i++) {
-                                var tr = document.createElement('tr');
-
-                                var deleteTd = document.createElement('td');
-                                deleteTd.innerHTML = 'Delete';
-                                deleteTd.className = 'delete';
-                                deleteTd.setAttribute('id', data[i].id);
-
-                                var pallette = "<div class=\"color-pallette\">" +
-                                    "<div class=\"pick-color pick-green\"></div>" +
-                                    "<div class=\"pick-color pick-yellow\"></div>" +
-                                    "<div class=\"pick-color pick-pink\"></div>" +
-                                    "</div>"
-
-                                var highLightTd = document.createElement('td');
-                                highLightTd.innerHTML = 'Highlight' + pallette;
-                                highLightTd.className = 'highlight';
+                                var xhr = new XMLHttpRequest();
+                                xhr.open("GET", 'http://localhost:8080/employee', true);
+                                xhr.send();
+                                xhr.onreadystatechange = function() {
+                                    if (xhr.readyState == 4 && xhr.status==200){
+                                        console.log('responseText: ' + xhr.responseText);
+                                        try{
+                                            if(rowCount>10) {
+                                                var data=JSON.parse(xhr.responseText);
+                                                data = data.slice(0,10);
 
 
-                                for (key in data[i]) {
-                                    if(key==='id') {
-                                        continue;
-                                    }
+                                            }
+                                            else if(rowCount<=10) {
+                                                var data=JSON.parse(xhr.responseText);
 
-                                    var td = document.createElement('td');
-                                    if (key === 'married') {
-                                        if (data[i][key] === true) {
-                                            td.innerHTML = 'Yes';
-                                        } else {
-                                            td.innerHTML = 'No';
+                                            }
+
+                                            console.log(data);
+                                            addInitData(data);
+                                        } catch (err) {
+                                            console.log(err.message + " in " + xhr.responseText);
+                                            return;
                                         }
                                     }
-
-                                    else {
-                                        td.innerHTML = data[i][key];
-                                    }
-
-                                    tr.appendChild(td);
-                                    tr.appendChild(deleteTd);
-                                    tr.appendChild(highLightTd);
-
                                 }
-
-                                tbody.appendChild(tr);
-                            }
-
-                        } else{
-                            openCloseModal();
-                        }
-                    }
 
 //                    document.getElementById('uploading').textContent = 'Uploading...';
 
                 }
+            function addInitData(data) {
+                if (data.length > 0) {
+                    var tbody = table.getElementsByTagName('tbody')[0];
+                    for (i = 0; i < data.length; i++) {
+                        var tr = document.createElement('tr');
+
+                        var deleteTd = document.createElement('td');
+                        deleteTd.innerHTML = 'Delete';
+                        deleteTd.className = 'delete';
+                        deleteTd.setAttribute('id', data[i].id);
+
+                        var pallette = "<div class=\"color-pallette\">" +
+                            "<div class=\"pick-color pick-green\"></div>" +
+                            "<div class=\"pick-color pick-yellow\"></div>" +
+                            "<div class=\"pick-color pick-pink\"></div>" +
+                            "</div>"
+
+                        var highLightTd = document.createElement('td');
+                        highLightTd.innerHTML = 'Highlight' + pallette;
+                        highLightTd.className = 'highlight';
+
+
+                        for (key in data[i]) {
+                            if (key === 'id') {
+                                continue;
+                            }
+
+                            var td = document.createElement('td');
+                            if (key === 'married') {
+                                if (data[i][key] === true) {
+                                    td.innerHTML = 'Yes';
+                                } else {
+                                    td.innerHTML = 'No';
+                                }
+                            }
+
+                            else {
+                                td.innerHTML = data[i][key];
+                            }
+
+                            tr.appendChild(td);
+                            tr.appendChild(deleteTd);
+                            tr.appendChild(highLightTd);
+
+                        }
+
+                        tbody.appendChild(tr);
+                    }
+
+                } else {
+                    openCloseModal();
+                }
+            }
 
             function openCloseModal() {
                 var modal = document.getElementById('updates-popup');
@@ -415,12 +455,47 @@
                 }
 
             }
-            function uploadData() {
-                var deleteArray = document.getElementsByClassName('delete');
-                var value = deleteArray[deleteArray.length-1].getAttribute('id');
-                console.log('filter value: '+value);
+
+
+            function uploadDataRequest(){
                 var xhr = new XMLHttpRequest();
-                xhr.open("GET", 'http://localhost:8080/employee/filter?from='+value, true);
+                xhr.open("GET", 'http://localhost:8080/employee/count', true);
+                xhr.send();
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status==200){
+                        try{
+                            var data=JSON.parse(xhr.responseText);
+                            console.log(data);
+                            uploadData(data);
+                        } catch (err) {
+                            console.log(err.message + " in " + xhr.responseText);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            function uploadData(lastId) {
+                console.log('lastId: '+lastId);
+                var deleteArray = document.getElementsByClassName('delete');
+
+                function getLastUploadedId() {
+                    var idArray = [];
+                    for (i = 0; i < deleteArray.length; i++) {
+                        idArray[i] = parseInt(deleteArray[i].getAttribute('id'));
+                    }
+                    var lastUploadedId = (function () {
+                        return (Math.max.apply(null, idArray)) + 1;
+                    })(idArray);
+                    return lastUploadedId;
+                }
+
+                var lastUploadedId = getLastUploadedId();
+
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", 'http://localhost:8080/employee/filter?from='+lastUploadedId+'&to='+lastId, true);
                 xhr.send();
                 xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status==200){
@@ -792,7 +867,7 @@
             table.addEventListener('click',sortColumns);
             addbtn.addEventListener('click',addRow);
 //            addbtn.addEventListener('click', addApi);
-            uploadbtn.addEventListener('click', uploadData);
+            uploadbtn.addEventListener('click', uploadDataRequest);
             closemodal.addEventListener('click', openCloseModal);
 //
 
