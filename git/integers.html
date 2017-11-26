@@ -1,45 +1,31 @@
 <script>
-    function listSquared(m, n) {
-        var rawNums = [];
-        for(var i=m; i<=n;i++) {
-            rawNums[i] = i;
+    function listSquared (m, n) {
+        var matches = [];
+
+        for (var i = m; i <= n; ++i) {
+            var sum = getDivisors(i).reduce((sum, n) => sum + n * n, 0);
+            var ok = Number.isInteger(Math.sqrt(sum));
+
+            if (ok) {
+                matches.push([i, sum]);
+            }
         }
 
-        rawNums = rawNums.slice(1);
+        return matches;
+    }
 
-        var getNumsAndSums = function (num) {
-            var sumDivisors = 0;
-            var square;
-            var sumDivisorsObj = {};
-            for (i = 1; i <= num; i++) {
-                if (num === 1) {
-                    sumDivisors = 1;
-                }
-                else if (num % i === 0) {
-                    square = i * i;
-                    sumDivisors += square;
-                }
+    function getDivisors (n) {
+        var divisors = [];
+
+        for (var i = 1; i <= n / 2; ++i) {
+            if (n % i) {
+                continue;
             }
 
-            if (Math.sqrt(sumDivisors) % 1 === 0) {
-                sumDivisorsObj.num = num;
-                sumDivisorsObj.sum = sumDivisors;
-            }
-            return sumDivisorsObj;
+            divisors.push(i);
         }
 
-        var removeEmpties = function(item) {
-            return item.num !== undefined && item.sum !==undefined;
-        };
-
-        var filteredValues = rawNums.map(getNumsAndSums).filter(removeEmpties);
-
-        var resultArray = [];
-        for(i=0; i<filteredValues.length; i++) {
-            resultArray[i] = [filteredValues[i].num, filteredValues[i].sum];
-        }
-
-        return resultArray;
+        return divisors.concat([n]);
     }
 
     console.log(listSquared(250, 500));
