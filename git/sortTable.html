@@ -4,170 +4,52 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="styleTable.css">
         <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
-        <style>
-            .wrapper {
-                max-width:1000px;
-                margin:5px auto;
-            }
-            table {
-                border-spacing: 0;
-                border:none !important;
-
-            }
-            thead tr:first-child{
-                background: #ccc;
-            }
-            td, th{
-                border:1px solid #000;
-                padding: 5px;
-            }
-            .sort-btn{
-                width: 0;
-                height: 0;
-                border-left: 10px solid transparent;
-                border-right: 10px solid transparent;
-                margin-left:10px;
-                margin-right:10px;
-                position: relative;
-                cursor: pointer;
-            }
-            .sort-btn-down {
-                border-top: 10px solid red;
-                bottom: -15px;
-            }
-            .sort-btn-up {
-                border-bottom: 10px solid red;
-                bottom: 13px;
-            }
-
-            .inputs {
-                margin-top:10px;
-                display: none;
-            }
-            .inputs input[type='text'] {
-                padding: 8px !important;
-                margin-right:10px;
-                display: inline!important;;
-                width: auto!important;;
-                height: auto!important;;
-            }
-            input.error-field {
-                border-color: #a94442;
-                box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-            }
-            label.married {
-                display: inline-block;
-                margin-top:5px;
-                margin-bottom: 15px;
-                font-weight: normal;
-            }
-            .married input{
-                display: inline-block;
-                vertical-align: top;
-            }
-            .error-msg {
-                display: none;
-                color: red;
-            }
-            .delete{
-                cursor: pointer;
-                border:none !important;
-                padding-left:10px;
-                color: red;
-
-            }
-            .highlight {
-                cursor: pointer;
-                border:none !important;
-                padding-left:10px;
-                color: forestgreen;
-                width: 200px;
-                position: relative;
-
-            }
-            .highlight:hover .color-pallette{
-                display: block;
-            }
-
-
-            .color-pallette {
-                background: #fff;
-                width: 90px;
-                padding: 5px;
-                position: absolute;
-                right: 0;
-                bottom: 0;
-                display: none;
-            }
-            .pick-color {
-                width: 20px;
-                height:20px;
-                display: inline-block;
-                margin-right: 8px;
-            }
-            .pick-pink {
-                background: hotpink;
-                margin-right: 0 !important;
-            }
-            .pick-green {
-                background: darkgreen;
-            }
-            .pick-yellow {
-                background: yellow;
-            }
-            .modal[aria-hidden='true'] {
-                display: block;
-            }
-            .modal[aria-hidden='false'] {
-                display: none;
-            }
-            .pagination a{
-                margin-right:5px;
-            }
-        </style>
     </head>
     <body>
-    <div id="mocha"></div>
     <div class="wrapper" id="wrapper">
-        <table id="table" class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Name<span class="sort-btn sort-btn-up" id="names-col" data-type="abc"></span></th>
-                    <th>Job title<span class=" sort-btn sort-btn-up" id="jobtitle-col" data-type="abc"></span></th>
-                    <th>Age<span class="sort-btn sort-btn-up" data-type="num" id="age-col"></span></th>
-                    <th>Married<span class="sort-btn sort-btn-up" data-type="abc" id="married-col"></span></th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="filter">
+            <label for="" class="filter-label"><div >Filter by job title</div><input type="text" id="filterjob"/></label>
+            <label for="" class="filter-label"><div >Filter by age</div><input type="text" /></label>
 
-            </tbody>
-        </table>
-        <div class="inputs" id="inputs">
-            <input type="text" placeholder="Name" name="name" class="form-control"/>
-            <input type="text" placeholder="Job title" name="jobtitle" class="form-control"/>
-            <input type="text" placeholder="Age" name="age" class="form-control"/>
-            <label class="married">
-                <input type="checkbox" name="married"/>
-                Married
-            </label>
         </div>
-        <div class="error-msg" id="error">
-            Please check data you inserted
-        </div>
+        <div class="tableBtnsInputs">
+            <table id="table" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name<span class="sort-btn sort-btn-up" id="names-col" data-type="abc"></span></th>
+                        <th>Job title<span class=" sort-btn sort-btn-up" id="jobtitle-col" data-type="abc"></span></th>
+                        <th>Age<span class="sort-btn sort-btn-up" data-type="num" id="age-col"></span></th>
+                        <th>Married<span class="sort-btn sort-btn-up" data-type="abc" id="married-col"></span></th>
+                    </tr>
+                </thead>
+                <tbody>
 
-        <a href="#" class="btn btn-info btn-lg add-btn" id="addbtn">
-            <span class="glyphicon glyphicon-plus"></span> Add employee
-        </a>
-        <a href="#" class="btn btn-success btn-lg add-btn" id="uploadbtn">
-            <span class="glyphicon glyphicon-plus"></span> Upload new employees
-        </a>
-        <div class="pagination" id="pagination">
-            <!--<a href="">1</a>-->
-            <!--<a href="">2</a>-->
-            <!--<a href="">3</a>-->
+                </tbody>
+            </table>
+            <div class="inputs" id="inputs">
+                <input type="text" placeholder="Name" name="name" class="form-control"/>
+                <input type="text" placeholder="Job title" name="jobtitle" class="form-control"/>
+                <input type="text" placeholder="Age" name="age" class="form-control"/>
+                <label class="married">
+                    <input type="checkbox" name="married"/>
+                    Married
+                </label>
+            </div>
+            <div class="error-msg" id="error">
+                Please check data you inserted
+            </div>
+
+            <a href="#" class="btn btn-info btn-lg add-btn" id="addbtn">
+                <span class="glyphicon glyphicon-plus"></span> Add employee
+            </a>
+            <a href="#" class="btn btn-success btn-lg add-btn" id="uploadbtn">
+                <span class="glyphicon glyphicon-plus"></span> Upload new employees
+            </a>
+            <div class="pagination" id="pagination"></div>
         </div>
         <div class="modal" id="updates-popup" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
             <div class="modal-dialog">
@@ -188,6 +70,32 @@
         <script>
             /*Global things*/
             var tbody = table.getElementsByTagName('tbody')[0];
+
+            /*Фильтры*/
+
+            function filterByJob(){
+//                function extractFilterValue() {
+//                    alert(document.getElementById('filterjob').value);
+//                }
+//                setTimeout(extractFilterValue, 1000);
+                var filteredValue = document.getElementById('filterjob').value;
+                var allJobCells = document.getElementsByClassName('jobtitle');
+
+                var trArray = tbody.getElementsByTagName('tr');
+                for(i=0; i<trArray.length; i++) {
+                    trArray[i].style.display='none';
+
+                    if(allJobCells[i].textContent.toLowerCase().includes(filteredValue.toLowerCase())) {
+                        trArray[i].style.display='';
+                    }
+                }
+
+
+
+
+            }
+
+
 
 
             /*Инициализируем первую страницу. Узнаем сколько всего записей в базе данных*/
@@ -266,41 +174,36 @@
             }
 
             /*Эта функция-обработчик выводит определенный диапазон строчек в таблице. Например, на 3й странице (page=3), нужно вывести строки с 21 по 30 */
-            function displayPages(page, data){
-                for (i=0; i<tbody.children.length; i++) {
-                    tbody.children[i].style.display="none";
+            function displayPages(page){
+                var tableRows = tbody.children;
+//                var tableRowsArray;
+//                tableRowsArray = Array.prototype.slice.call(tableRows);
+                console.log(tableRows);
+                for (i=0; i<tableRows.length; i++) {
+                    tableRows[i].style.display="none";
                 }
-
                 var fromPage = (page * 10) - 9;
                 var toPage = page * 10;
-                addData(data, fromPage, toPage);
+                for(i=fromPage-1; i<toPage; i++) {
+                    tableRows[i].style.display="";
+                }
+
+
             }
 
-            /*Эта функция вставляет загруженные данные в таблицу. Отрисовывает строки и ячейки, а также кнопки Delete и Highlight */
-            function addData(data, init, fromPage, toPage) {
-               var minDataLength, maxDataLength, startPage;
-               /*отрисовка строк на этапе первой загрузки страницы, тут загружаются первые 10 полей */
-               if(init===true) {
-                   minDataLength = 10;
-                   maxDataLength = 10;
-                   startPage = 0;
 
-               }
+
+            /*Эта функция вставляет загруженные данные в таблицу. Отрисовывает строки и ячейки, а также кнопки Delete и Highlight */
+            function addData(data, init) {
+               var minDataLength, maxDataLength;
+               /*отрисовка строк на этапе первой загрузки страницы, тут загружаются первые 10 полей */
+
                /*тут строк отрисовываются и заполняются, когда нажимаем кнопку Upload Data */
-               else {
+
                    minDataLength = 0;
                    maxDataLength = data.length;
-                   startPage = 0;
-               }
-               /*этот случай для отрисовки строк при переходе на странички внутри пагинации*/
-               if(fromPage && toPage) {
-                   minDataLength = 10;
-                   maxDataLength = toPage;
-                   startPage = fromPage;
-               }
-
                 if (data.length > minDataLength) {
-                    for (i = startPage; i < maxDataLength; i++) {
+                    for (i = 0; i < maxDataLength; i++) {
                         var tr = document.createElement('tr');
                         var deleteTd = document.createElement('td');
                         deleteTd.innerHTML = 'Delete';
@@ -336,6 +239,10 @@
                                 td.innerHTML = data[i][key];
                             }
 
+                            if(key==='jobTitle') {
+                                td.className = 'jobtitle';
+                            }
+
                             tr.appendChild(td);
                             tr.appendChild(deleteTd);
                             tr.appendChild(highLightTd);
@@ -345,8 +252,21 @@
                         tbody.appendChild(tr);
                     }
 
+
                 } else {
                     openCloseModal();
+                }
+                if(init===true) {
+                    console.log('initialization');
+                    var initLastRows, initFirstRowsArray;
+                    var initFirstRowsList = tbody.children;
+                    initFirstRowsArray = Array.prototype.slice.call(initFirstRowsList);
+                    console.log(initFirstRowsArray);
+                    initLastRows = initFirstRowsArray.slice(10,initFirstRowsArray.length);
+                    console.log(initLastRows);
+                    for (i=0; i<initLastRows.length; i++) {
+                        initLastRows[i].style.display="none";
+                    }
                 }
             }
 
@@ -650,6 +570,9 @@
                                 inputs.getElementsByTagName('input')[i].classList.remove('error-field');
                             }
                             newtd[i]=document.createElement('td');
+                            if(i===1) {
+                                newtd[i].className="jobtitle";
+                            }
                             newtd[i].innerHTML = inputValues[i];
                             tr.appendChild(newtd[i]);
                         }
@@ -706,6 +629,7 @@
             addbtn.addEventListener('click',addRow);
             uploadbtn.addEventListener('click', uploadDataRequest);
             closemodal.addEventListener('click', openCloseModal);
+            filterjob.addEventListener('input', filterByJob);
 
 </script>
     </body>
