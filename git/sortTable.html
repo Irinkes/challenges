@@ -13,7 +13,13 @@
     <div class="wrapper" id="wrapper">
         <div class="filter">
             <label for="" class="filter-label"><div >Filter by job title</div><input type="text" id="filterjob"/></label>
-            <label for="" class="filter-label"><div >Filter by age</div><input type="text" /></label>
+            <!--<label for="" class="filter-label"><div >Filter by age</div><input type="text" /></label>-->
+            <div>
+                <span>Married</span>
+                <label for="" class=""><div >Yes</div><input type="radio" id="married"/></label>
+                <label for="" class=""><div >No</div><input type="radio" id="notmarried"/>
+                </label>
+            </div>
 
         </div>
         <div class="tableBtnsInputs">
@@ -80,6 +86,7 @@
 //                setTimeout(extractFilterValue, 1000);
                 var filteredValue = document.getElementById('filterjob').value;
                 var allJobCells = document.getElementsByClassName('jobtitle');
+                var filteredArr = [];
 
                 var trArray = tbody.getElementsByTagName('tr');
                 for(i=0; i<trArray.length; i++) {
@@ -87,11 +94,16 @@
 
                     if(allJobCells[i].textContent.toLowerCase().includes(filteredValue.toLowerCase())) {
                         trArray[i].style.display='';
+                        filteredArr[i] = trArray[i];
                     }
                 }
+                filteredArr = filteredArr.filter(function(n){ return n != undefined });
+
+                console.log(filteredArr);
 
 
-
+            }
+            function filterByMarriage(){
 
             }
 
