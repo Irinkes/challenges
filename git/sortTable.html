@@ -16,8 +16,8 @@
             <!--<label for="" class="filter-label"><div >Filter by age</div><input type="text" /></label>-->
             <div>
                 <span>Married</span>
-                <label for="" class=""><div >Yes</div><input type="radio" id="married"/></label>
-                <label for="" class=""><div >No</div><input type="radio" id="notmarried"/>
+                <label for="" class=""><div >Yes</div><input type="radio" name="marriage" id="married"/></label>
+                <label for="" class=""><div >No</div><input type="radio" name="marriage" id="notmarried"/>
                 </label>
             </div>
 
@@ -76,17 +76,18 @@
         <script>
             /*Global things*/
             var tbody = table.getElementsByTagName('tbody')[0];
+            var filteredRows = []; //array of filtered rows
 
             /*Фильтры*/
 
-            function filterByJob(){
+            function filterByJob(filteredRows){
 //                function extractFilterValue() {
 //                    alert(document.getElementById('filterjob').value);
 //                }
 //                setTimeout(extractFilterValue, 1000);
                 var filteredValue = document.getElementById('filterjob').value;
                 var allJobCells = document.getElementsByClassName('jobtitle');
-                var filteredArr = [];
+
 
                 var trArray = tbody.getElementsByTagName('tr');
                 for(i=0; i<trArray.length; i++) {
@@ -94,17 +95,27 @@
 
                     if(allJobCells[i].textContent.toLowerCase().includes(filteredValue.toLowerCase())) {
                         trArray[i].style.display='';
-                        filteredArr[i] = trArray[i];
+                        filteredRows[i] = trArray[i];
                     }
                 }
-                filteredArr = filteredArr.filter(function(n){ return n != undefined });
+                console.log(filteredRows);
+                //filteredRows = filteredRows.filter(function(n){ return n != undefined });
 
-                console.log(filteredArr);
+                return filteredRows;
 
 
             }
-            function filterByMarriage(){
+            function filterByMarriage(filteredRows){
+               // var marriedCheckBox = document.getElementById('married');
+                if(event.target.checked) {
+                    var trArr = tbody.getElementsByTagName('tr');
+                  //  console.log("filteredRows: "+ filteredRows);
+                    for(var i=0; i<trArr.length; i++) {
+                        trArr[i].style.display='none';
+                        //if(trArr[i].)
+                    }
 
+                }
             }
 
 
@@ -642,6 +653,7 @@
             uploadbtn.addEventListener('click', uploadDataRequest);
             closemodal.addEventListener('click', openCloseModal);
             filterjob.addEventListener('input', filterByJob);
+            married.addEventListener('click', filterByMarriage);
 
 </script>
     </body>
