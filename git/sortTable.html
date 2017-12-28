@@ -76,7 +76,7 @@
         <script>
             /*Global things*/
             var tbody = table.getElementsByTagName('tbody')[0];
-            var filteredRows = []; //array of filtered rows
+            var filteredRows = tbody.getElementsByTagName('tr'); //array of filtered rows
 
             /*Фильтры*/
 
@@ -90,6 +90,7 @@
 
 
                 var trArray = tbody.getElementsByTagName('tr');
+                filteredRows=[];
                 for(i=0; i<trArray.length; i++) {
                     trArray[i].style.display='none';
 
@@ -107,12 +108,19 @@
             }
             function filterByMarriage(filteredRows){
                // var marriedCheckBox = document.getElementById('married');
+               // console.log(filteredRows);
                 if(event.target.checked) {
                     var trArr = tbody.getElementsByTagName('tr');
                   //  console.log("filteredRows: "+ filteredRows);
-                    for(var i=0; i<trArr.length; i++) {
-                        trArr[i].style.display='none';
-                        //if(trArr[i].)
+                    console.log(filteredRows[0]);
+                    for(var i=0; i<filteredRows.length; i++) {
+                        filteredRows[i].style.display='none';
+
+                        var cellMarriage = filteredRows[i].getElementsByClassName('marriage')[0];
+                            if(cellMarriage.innerHTML==='Yes') {
+                                filteredRows[i].style.display="";
+                            }
+
                     }
 
                 }
@@ -256,6 +264,7 @@
                                 } else {
                                     td.innerHTML = 'No';
                                 }
+                                td.className = 'marriage';
                             }
 
                             else {
@@ -595,6 +604,9 @@
                             newtd[i]=document.createElement('td');
                             if(i===1) {
                                 newtd[i].className="jobtitle";
+                            }
+                            if(i===3) {
+                                newtd[i].className="marriage";
                             }
                             newtd[i].innerHTML = inputValues[i];
                             tr.appendChild(newtd[i]);
